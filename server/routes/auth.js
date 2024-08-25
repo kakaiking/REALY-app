@@ -5,7 +5,7 @@ const multer = require("multer")
 
 const User = require("../models/User")
 
-// -------------Configuration multer for file upload--------------------------------------------------------
+// ---------------------Configuration multer for file upload--------------------------------------------------------
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/uploads") // Store uploaded files in the 'uploads' folde
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-// ---------------------User Register--------------------------------------------------------------------------------------
+// ------------------------------User Register--------------------------------------------------------------------------------------
 router.post("/register", upload.single('profileImage'), async (req, res) => {
     try{
         // Take all info from the form
@@ -61,6 +61,36 @@ router.post("/register", upload.single('profileImage'), async (req, res) => {
         console.log(err)
         res.status(500).json({ message: "Registration failed!", error: err.message})
     }
-})
+});
 
+// ---------------------- User Login ----------------------------------------------------------------------------------------------------------
+router.post("/login", async (req,res) => {
+    try {
+        // Take the info from the form
+        const{ email, password} = req.body
+
+        // Check if user exists
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(409).json({ message: "User doesn't exist"})
+        }
+
+        // Compare the password with the hashed password
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch) {
+            return res.status(400).json({ message: "Invalid credentials"})
+        }
+
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET)
+        delete user.password
+
+        res.status(200).json({ token, user})
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error: error.message})
+    }
+})
 module.exports = router
