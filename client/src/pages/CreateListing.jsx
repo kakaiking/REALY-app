@@ -5,7 +5,11 @@ import Navbar from '../components/Navbar';
 const CreateListing = () => {
   return (
     <div>
-      
+      <Navbar />
+
+      <div className="create-listing">
+        
+      </div>
     </div>
   )
 }
