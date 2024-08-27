@@ -8,7 +8,10 @@ const CreateListing = () => {
       <Navbar />
 
       <div className="create-listing">
-        
+        <h1>Publish Your Place</h1>
+        <form>
+            
+        </form>
       </div>
     </div>
   )
