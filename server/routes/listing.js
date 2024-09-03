@@ -124,15 +124,20 @@ router.get("/search/:search", async (req, res) => {
   }
 })
 
-/* LISTING DETAILS */
 router.get("/:listingId", async (req, res) => {
   try {
-    const { listingId } = req.params
-    const listing = await Listing.findById(listingId).populate("creator")
-    res.status(202).json(listing)
-  } catch (err) {
-    res.status(404).json({ message: "Listing can not found!", error: err.message })
+    const { listingId } = req.params;
+    const listing = await Listing.findById(listingId).populate("creator");
+    if (!listing) {
+      return res.status(404).json({ message: "Listing not found!" });
+    }
+    res.status(200).json(listing);
+  } catch (error) {
+    console.error("Error fetching listing:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
-})
+});
+
+
 
 module.exports = router
