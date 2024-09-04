@@ -62,7 +62,7 @@ const Navbar = () => {
 
             <Link to="/login" onClick={() => {
               dispatch(setLogout())
-            }}>Trip List</Link>
+            }}>Log Out</Link>
           </div>
         )}
 
