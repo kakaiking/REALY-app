@@ -8,6 +8,7 @@ import "../styles/Navbar.scss";
 import { setLogout } from '../redux/state';
 
 
+
 const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false)
   const user = useSelector((state) => state.user) 
@@ -54,8 +55,8 @@ const Navbar = () => {
 
         {dropdownMenu && user &&(
           <div className="navbar_right_accountmenu">
-            <Link to="">Trip List</Link>
-            <Link to="">Wish List</Link>
+            <Link to={`/${user._id}/trips`}>Trip List</Link>
+            <Link to={`/${user._id}/wishList`}>Wish List</Link>
             <Link to="">Property List</Link>
             <Link to="">Reservation List</Link>
             <Link to="">Become A Host</Link>

@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-// import { setWishList } from "../redux/state";
+import { setWishList } from "../redux/state";
 
 const ListingCard = ({
   listingId,
@@ -59,8 +59,10 @@ const ListingCard = ({
       }
     );
     const data = await response.json();
-    // dispatch(setWishList(data.wishList));
-  } else { return }
+    dispatch(setWishList(data.wishList));
+  } else { 
+    console.log("error") 
+  }
   };
 
   return (
